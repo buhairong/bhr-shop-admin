@@ -14,6 +14,12 @@ https://github.com/vuejs/jsx-next
 
 https://next.router.vuejs.org/zh/installation.html
 
+https://github.com/vuejs/vuex/tree/4.0
+
+https://next.vuex.vuejs.org/zh/index.html
+
+https://github.com/axios/axios
+
 # Vue.js 3 + Vite + TypeScript 实战项目开发
 
 本模块中我们通过使用 TypeScript 编程语言，基于 Vue.js 3 全家桶（Vue.js、Vue Router、Vuex、Vite、Element Plus 等）开发 B 端管理系统项目（dashboard)。通过实战深入掌握 Vue.js 3 及其相关技术栈的使用。
