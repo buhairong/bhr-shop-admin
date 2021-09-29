@@ -4,10 +4,16 @@
 
 <script setup lang="ts">
 import { getLoginInfo } from '@/api/common'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, ref } from '@vue/runtime-core'
+import type { ILoginInfo } from '@/api/types/common'
+
+const list = ref<ILoginInfo['slide']>([])
 
 onMounted(() => {
-  getLoginInfo()
+  getLoginInfo().then(res => {
+    console.log(res.msg)
+    list.value = res.data.slide
+  })
 })
 </script>
 

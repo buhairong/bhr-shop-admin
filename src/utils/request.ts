@@ -1,7 +1,13 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
+
+interface ResponseData<T = any> {
+  status: number
+  msg: string
+  data: T
+}
 
 const request = axios.create({
-  baseURL: 'https://shop.fed.lagou.com/api/admin/'
+  // baseURL: import.meta.env.VITE_API_BASEURL
 })
 
 request.interceptors.request.use(function (config) {
@@ -21,4 +27,8 @@ request.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-export default request
+export default <T = any> (config: AxiosRequestConfig) => {
+  return request(config).then(res => {
+    return res.data as ResponseData<T>
+  })
+}
