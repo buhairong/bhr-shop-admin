@@ -49,7 +49,8 @@
           <img
             class="imgcode"
             alt="验证码"
-            src="https://shop.fed.lagou.com/api/admin/captcha_pro"
+            :src="captchaSrc"
+            @click="loadCaptcha"
           >
         </div>
       </el-form-item>
@@ -68,7 +69,16 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+import { getCaptcha, login } from '@/api/common'
+import { useRouter } from 'vue-router'
+import type { IElForm, IFormRule } from '@/types/element-plus'
+import { useStore } from '@/store'
+
+const router = useRouter()
+const store = useStore()
+const form = ref<IElForm | null>(null)
+const captchaSrc = ref('')
 
 const user = reactive({
   account: 'admin',
@@ -76,7 +86,7 @@ const user = reactive({
   imgcode: ''
 })
 const loading = ref(false)
-const rules = ref({
+const rules = ref<IFormRule>({
   account: [
     { required: true, message: '请输入账号', trigger: 'change' }
   ],
@@ -88,8 +98,35 @@ const rules = ref({
   ]
 })
 
+onMounted(() => {
+  loadCaptcha()
+})
+
+const loadCaptcha = async () => {
+  const data = await getCaptcha()
+  console.log('data', data)
+  captchaSrc.value = URL.createObjectURL(data)
+  console.log('captchaSrc.value', captchaSrc.value)
+}
+
 const handleSubmit = async () => {
-  console.log('handleSubmit')
+  const valid = await form.value?.validate()
+  if (!valid) {
+    return false
+  }
+
+  loading.value = true
+  const data = await login(user)
+    .finally(() => {
+      loading.value = false
+    })
+
+  console.log(data)
+  store.commit('setUser', data.user_info)
+
+  router.replace({
+    name: 'home'
+  })
 }
 
 </script>

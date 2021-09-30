@@ -1,10 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-
-interface ResponseData<T = any> {
-  status: number
-  msg: string
-  data: T
-}
+import { ElMessage } from 'element-plus'
 
 const request = axios.create({
   // baseURL: import.meta.env.VITE_API_BASEURL
@@ -20,6 +15,11 @@ request.interceptors.request.use(function (config) {
 
 request.interceptors.response.use(function (response) {
   // 统一处理接口响应错误,比如 token 过期无效、服务端异常等
+  if (response.data.status && response.data.status !== 200) {
+    ElMessage.error(response.data.msg || '请求失败，请稍后重试！')
+    // 手动返回一个 Promise 异常
+    return Promise.reject(response.data)
+  }
   return response
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
@@ -29,6 +29,6 @@ request.interceptors.response.use(function (response) {
 
 export default <T = any> (config: AxiosRequestConfig) => {
   return request(config).then(res => {
-    return res.data as ResponseData<T>
+    return (res.data.data || res.data) as T
   })
 }
