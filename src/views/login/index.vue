@@ -71,11 +71,12 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from 'vue'
 import { getCaptcha, login } from '@/api/common'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import type { IElForm, IFormRule } from '@/types/element-plus'
 import { useStore } from '@/store'
 
 const router = useRouter()
+const route = useRoute()
 const store = useStore()
 const form = ref<IElForm | null>(null)
 const captchaSrc = ref('')
@@ -122,11 +123,16 @@ const handleSubmit = async () => {
     })
 
   console.log(data)
-  store.commit('setUser', data.user_info)
-
-  router.replace({
-    name: 'home'
+  store.commit('setUser', {
+    ...data.user_info,
+    token: data.token
   })
+
+  let redirect = route.query.redirect || '/'
+  if (typeof redirect !== 'string') {
+    redirect = '/'
+  }
+  router.replace(redirect)
 }
 
 </script>

@@ -6,7 +6,7 @@ import { USER } from '@/utils/constants'
 
 const state = {
   isCollapse: false,
-  user: getItem<IUserInfo>(USER)
+  user: getItem <{token: string} & IUserInfo>(USER)
 }
 
 export type State = typeof state

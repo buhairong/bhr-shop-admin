@@ -5,6 +5,9 @@ const routes: RouteRecordRaw[] = [
     path: '/permission',
     name: 'permission',
     component: RouterView,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: 'admin',

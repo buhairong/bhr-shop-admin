@@ -5,6 +5,9 @@ const routes: RouteRecordRaw[] = [
     path: '/order',
     name: 'order',
     component: RouterView,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: 'list',

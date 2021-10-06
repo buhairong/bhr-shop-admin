@@ -6,6 +6,7 @@ import permissionRoutes from './modules/permission'
 import mediaRoutes from './modules/media'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { store } from '@/store'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -17,7 +18,8 @@ const routes: RouteRecordRaw[] = [
         name: 'home',
         component: () => import('../views/home/index.vue'),
         meta: {
-          title: '首页'
+          title: '首页',
+          requiresAuth: true
         }
       },
       ...productRoutes,
@@ -38,8 +40,16 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from) => {
   nprogress.start()
+  if (to.meta.requiresAuth && !store.state.user) {
+    return {
+      name: 'login',
+      query: {
+        redirect: to.fullPath
+      }
+    }
+  }
 })
 
 router.afterEach(() => {

@@ -30,7 +30,7 @@ export const login = (data: ILoginReq) => {
 
 export const logout = () => {
   return request<ILoginRes>({
-    method: 'POST',
-    url: '/admin/logout'
+    method: 'GET',
+    url: '/admin/setting/admin/logout'
   })
 }
