@@ -135,14 +135,11 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      v-model:currentPage="listParams.page"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="listParams.limit"
-      layout="total, sizes, prev, pager, next, jumper"
+    <AppPagination
+      v-model:page="listParams.page"
+      v-model:limit="listParams.limit"
       :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      :load-list="loadList"
     />
   </el-card>
 </template>
@@ -175,17 +172,6 @@ const loadList = async () => {
 
 const handleQuery = async () => {
   listParams.page = 1
-  loadList()
-}
-
-const handleSizeChange = (val: number) => {
-  listParams.limit = val
-  listParams.page = 1
-  loadList()
-}
-
-const handleCurrentChange = (val: number) => {
-  listParams.page = val
   loadList()
 }
 </script>
