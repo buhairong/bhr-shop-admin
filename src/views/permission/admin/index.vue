@@ -51,7 +51,11 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <el-button class="button">
+        <el-button
+          type="primary"
+          class="button"
+          @click="formVisible = true"
+        >
           添加管理员
         </el-button>
       </div>
@@ -108,6 +112,7 @@
             :active-value="1"
             :inactive-value="0"
             :loading="scope.row.statusLoading"
+            @change="handleStatusChange(scope.row)"
           />
         </template>
       </el-table-column>
@@ -117,14 +122,16 @@
         min-width="100"
         align="center"
       >
-        <template #default="">
+        <template #default="scope">
           <el-button
             type="text"
+            @click="handleUpdate(scope.row.id)"
           >
             编辑
           </el-button>
           <el-popconfirm
             title="确认删除吗？"
+            @confirm="handleDelete(scope.row.id)"
           >
             <template #reference>
               <el-button type="text">
@@ -135,19 +142,26 @@
         </template>
       </el-table-column>
     </el-table>
-    <AppPagination
+    <Pagination
       v-model:page="listParams.page"
       v-model:limit="listParams.limit"
       :total="total"
       :load-list="loadList"
+      :disabled="listLoading"
     />
   </el-card>
+  <AdminForm
+    v-model="formVisible"
+    v-model:admin-id="adminId"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { getAdmins } from '@/api/admin'
+import { getAdmins, deleteAdmin, updateAdminStatus } from '@/api/admin'
 import type { IListParams, Admin } from '@/api/types/admin'
+import { ElMessage } from 'element-plus'
+import AdminForm from './AdminForm.vue'
 
 const list = ref<Admin[]>([])
 const listLoading = ref(false)
@@ -159,13 +173,18 @@ const listParams = reactive({
   roles: '',
   status: '' as IListParams['status']
 })
+const formVisible = ref(false)
+const adminId = ref<number | null>(null)
 
 onMounted(() => {
   loadList()
 })
 
 const loadList = async () => {
-  const data = await getAdmins(listParams)
+  listLoading.value = true
+  const data = await getAdmins(listParams).finally(() => {
+    listLoading.value = false
+  })
   list.value = data.list
   total.value = data.count
 }
@@ -173,6 +192,25 @@ const loadList = async () => {
 const handleQuery = async () => {
   listParams.page = 1
   loadList()
+}
+
+const handleDelete = async (id: number) => {
+  await deleteAdmin(id)
+  ElMessage.success('删除成功')
+  loadList()
+}
+
+const handleStatusChange = async (item: Admin) => {
+  item.statusLoading = true
+  await updateAdminStatus(item.id, item.status).finally(() => {
+    item.statusLoading = false
+  })
+  ElMessage.success(`${item.status === 1 ? '启用' : '禁用'}成功`)
+}
+
+const handleUpdate = (id: number) => {
+  formVisible.value = true
+  adminId.value = id
 }
 </script>
 
