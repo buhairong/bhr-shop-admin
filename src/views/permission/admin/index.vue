@@ -153,6 +153,7 @@
   <AdminForm
     v-model="formVisible"
     v-model:admin-id="adminId"
+    @success="handleFormSuccess"
   />
 </template>
 
@@ -211,6 +212,11 @@ const handleStatusChange = async (item: Admin) => {
 const handleUpdate = (id: number) => {
   formVisible.value = true
   adminId.value = id
+}
+
+const handleFormSuccess = () => {
+  // formVisible.value = false
+  loadList()
 }
 </script>
 

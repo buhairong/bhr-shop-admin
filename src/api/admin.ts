@@ -65,13 +65,6 @@ export const getAdmin = (id: number) => {
     data.rules.forEach(item => {
       obj[item.field] = item.value
     })
-    return obj as {
-      account: string
-      pwd: string
-      conf_pwd: string
-      real_name: string
-      roles: string[]
-      status: 0 | 1
-    }
+    return obj as AdminPostData
   })
 }
