@@ -20,10 +20,19 @@ https://next.vuex.vuejs.org/zh/index.html
 
 https://github.com/axios/axios
 
-elementPlus
+# elementPlus
 https://github.com/element-plus/element-plus
 
 https://element-plus.gitee.io/zh-CN/
+
+# 富文本编辑器
+https://github.com/vuejs/awesome-vue#rich-text-editing
+
+https://github.com/wangeditor-team/wangEditor
+
+https://www.wangeditor.com/
+
+https://www.wangeditor.com/doc/
 
 # Vue.js 3 + Vite + TypeScript 实战项目开发
 
