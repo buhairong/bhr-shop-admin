@@ -25,6 +25,17 @@ https://github.com/element-plus/element-plus
 
 https://element-plus.gitee.io/zh-CN/
 
+# 第三方表格插件
+https://github.com/x-extends/vxe-table
+
+https://xuliangzhan_admin.gitee.io/vxe-table/#/table/start/install
+
+# excel插件
+https://sheetjs.com/
+
+# 社区免费版
+https://github.com/sheetjs/sheetjs
+
 # 富文本编辑器
 https://github.com/vuejs/awesome-vue#rich-text-editing
 
@@ -33,6 +44,15 @@ https://github.com/wangeditor-team/wangEditor
 https://www.wangeditor.com/
 
 https://www.wangeditor.com/doc/
+
+# 拖拽组件
+https://github.com/vuejs/awesome-vue#drag-and-drop
+
+https://github.com/SortableJS/Vue.Draggable
+
+https://github.com/SortableJS/Sortable
+
+https://sortablejs.github.io/Sortable/
 
 # Vue.js 3 + Vite + TypeScript 实战项目开发
 
